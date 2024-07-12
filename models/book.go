@@ -1,7 +1,7 @@
 package models
 
 import (
-	"book/db"
+	"bookApp/db"
 )
 
 type Book struct {

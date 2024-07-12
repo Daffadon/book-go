@@ -1,8 +1,8 @@
 package main
 
 import (
-	"book/db"
-	"book/server"
+	"bookApp/db"
+	"bookApp/server"
 )
 
 func main() {
