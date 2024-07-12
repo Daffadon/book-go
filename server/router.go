@@ -1,7 +1,8 @@
 package server
 
 import (
-	"book/controllers"
+	"bookApp/controllers"
+	"bookApp/middleware"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -18,12 +19,19 @@ func NewRouter() *gin.Engine {
 	{
 		bookGroup := v1.Group("/book")
 		{
+			bookGroup.Use(middleware.AuthMiddleware)
 			book := new(controllers.BookController)
 			bookGroup.GET("/", book.GetBooks)
 			bookGroup.POST("/", book.CreateBook)
 			bookGroup.GET("/:id", book.FindBook)
 			bookGroup.PATCH("/:id", book.UpdateBook)
 			bookGroup.DELETE("/:id", book.DeleteBook)
+		}
+		authGroup := v1.Group("/auth")
+		{
+			auth := new(controllers.AuthController)
+			authGroup.POST("/login", auth.Login)
+			authGroup.POST("/register", auth.Register)
 		}
 	}
 	return router
