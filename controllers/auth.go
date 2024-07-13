@@ -64,17 +64,16 @@ func (auth AuthController) Register(ctx *gin.Context) {
 
 	createdUser := models.CreatedUser{
 		Fullname: input.Fullname,
+		Email:    input.Email,
 		Username: input.Username,
 		Password: input.Password,
 	}
-
-	user, err := UserModel.CreateUser(&createdUser)
+	_, err := UserModel.CreateUser(&createdUser)
 	if err == nil {
-		ctx.JSON(http.StatusOK, gin.H{"data": user})
+		ctx.JSON(http.StatusOK, gin.H{"massage": "success"})
 		ctx.Abort()
 		return
 	}
-
-	ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized!"})
+	ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	ctx.Abort()
 }
