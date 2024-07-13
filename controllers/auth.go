@@ -24,7 +24,7 @@ func (auth AuthController) Login(ctx *gin.Context) {
 	if err == nil {
 		errCompare := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password))
 		if errCompare != nil {
-			ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized!"})
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid email or password"})
 			ctx.Abort()
 			return
 		}
@@ -36,7 +36,7 @@ func (auth AuthController) Login(ctx *gin.Context) {
 		}
 		ctx.JSON(http.StatusOK, gin.H{"jwt": token})
 	}
-	ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized!"})
+	ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid email or password"})
 	ctx.Abort()
 }
 
