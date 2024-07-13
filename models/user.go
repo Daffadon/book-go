@@ -16,7 +16,7 @@ type User struct {
 func (u User) GetUser(input *LoginInput) (*User, error) {
 	db := db.GetDB()
 	var user User
-	if err := db.Where("username = ?", input.Username).First(&user).Error; err != nil {
+	if err := db.Where("email = ?", input.Email).First(&user).Error; err != nil {
 		return nil, err
 	}
 	return &user, nil
@@ -33,7 +33,7 @@ func (u User) CreateUser(input *CreatedUser) (*User, error) {
 }
 
 type LoginInput struct {
-	Username string `json:"username" binding:"required"`
+	Email    string `json:"email" binding:"required" type:"email"`
 	Password string `json:"password" binding:"required"`
 }
 type RegisterInput struct {
