@@ -1,15 +1,30 @@
 package db
 
 import (
-	"gorm.io/driver/sqlite"
+	"fmt"
+	"os"
+
+	"github.com/joho/godotenv"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 var db *gorm.DB
 
 func Init() {
+	if err := godotenv.Load(); err != nil {
+		panic("Failed to load .env file!")
+	}
 
-	database, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	user := os.Getenv("DATABASE_USERNAME")
+	password := os.Getenv("DATABASE_PASSWORD")
+	host := os.Getenv("DATABASE_URL")
+	port := os.Getenv("DATABASE_PORT")
+	dbname := os.Getenv("DATABASE_NAME")
+
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", user, password, host, port, dbname)
+
+	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		panic("Failed to connect to database!")
