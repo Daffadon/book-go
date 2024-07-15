@@ -33,6 +33,12 @@ func NewRouter() *gin.Engine {
 			authGroup.POST("/login", auth.Login)
 			authGroup.POST("/register", auth.Register)
 		}
+
+		authorGroup := v1.Group("/author")
+		{
+			author := new(controllers.AuthorController)
+			authorGroup.GET("/", author.GetAuthors)
+		}
 	}
 	return router
 }
