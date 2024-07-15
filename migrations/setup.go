@@ -7,5 +7,5 @@ import (
 
 func Init() {
 	db := db.GetDB()
-	db.AutoMigrate(&models.User{}, &models.Book{})
+	db.AutoMigrate(&models.User{}, &models.Book{}, &models.Author{})
 }
