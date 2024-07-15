@@ -11,11 +11,12 @@ import (
 )
 
 type Claims struct {
-	UserId uint `json:"userId"`
+	UserId uint   `json:"userId"`
+	Role   string `json:"role"`
 	jwt.StandardClaims
 }
 
-func GenerateToken(userId uint) (string, error) {
+func GenerateToken(userId uint, role string) (string, error) {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -26,6 +27,7 @@ func GenerateToken(userId uint) (string, error) {
 
 	claims := &Claims{
 		UserId: userId,
+		Role:   role,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},
